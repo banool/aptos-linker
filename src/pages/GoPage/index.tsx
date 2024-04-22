@@ -64,9 +64,7 @@ const WalletList = ({ linkUrl }: { linkUrl: string }) => {
 };
 
 export const GoPage = () => {
-  // Read from query params.
   const [searchParams] = useSearchParams();
-
   const linkUrl = searchParams.get("link");
 
   if (!linkUrl) {
