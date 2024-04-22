@@ -1,4 +1,4 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, CopyIcon } from "@chakra-ui/icons";
 import {
   Box,
   Container,
@@ -7,7 +7,9 @@ import {
   Image,
   Text,
   VStack,
+  useClipboard,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, useSearchParams } from "react-router-dom";
 
@@ -33,6 +35,19 @@ const wallets: Wallet[] = [
 const WalletList = ({ linkUrl }: { linkUrl: string }) => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const highlightColor = useColorModeValue("gray.200", "gray.700");
+
+  const { onCopy } = useClipboard(linkUrl);
+  const toast = useToast();
+
+  const copyToClipboard = () => {
+    onCopy();
+    toast({
+      title: "Copied URL to clipboard!",
+      status: "info",
+      duration: 1500,
+      isClosable: true,
+    });
+  };
 
   return (
     <Container>
@@ -72,6 +87,25 @@ const WalletList = ({ linkUrl }: { linkUrl: string }) => {
               </HStack>
             </Box>
           </Link>
+        </Box>
+        <Box
+          w="80%"
+          bg={true ? highlightColor : bgColor}
+          borderRadius="xl"
+          alignItems="center"
+          onClick={copyToClipboard}
+          cursor="pointer"
+        >
+          <Box p={4}>
+            <HStack spacing={4}>
+              <Box p={"0px"}>
+                <Icon as={CopyIcon} boxSize="64px" />
+              </Box>
+              <Text fontSize="xl" flex="1">
+                Copy URL
+              </Text>
+            </HStack>
+          </Box>
         </Box>
       </VStack>
     </Container>
