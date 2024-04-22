@@ -27,13 +27,11 @@ export default function MainLayout({ children }: LayoutProps) {
       "🤠",
       "😊",
       "🥳",
-      "🫨",
-      "🤧",
-      "😐",
-      "😳",
-      "🔗",
       "🦆",
       "🪿",
+      "🐶",
+      "🦊",
+      "🐐",
     ];
     const randomIndex = Math.floor(Math.random() * emojis.length);
     return emojis[randomIndex];
