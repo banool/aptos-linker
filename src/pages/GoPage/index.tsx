@@ -87,11 +87,11 @@ export const GoPage = () => {
         textAlign="center"
         paddingTop={0}
         paddingBottom={5}
-        paddingLeft={20}
-        paddingRight={20}
+        paddingLeft={10}
+        paddingRight={10}
       >
         <Text paddingBottom={1}>
-          Open the following URL in your preferred wallet:
+          These buttons will open the following URL in your preferred wallet
         </Text>
         <Text>
           <code>{decodeURI(linkUrl)}</code>
@@ -101,12 +101,12 @@ export const GoPage = () => {
       <Box
         textAlign="center"
         paddingTop={10}
-        paddingLeft={20}
-        paddingRight={20}
+        paddingLeft={10}
+        paddingRight={10}
       >
         <Text>
           {
-            'Link taking you to the App Store instead of the app? Long hold and select "Open in <Wallet>".'
+            'Button taking you to the App Store instead of the app? Long hold and select Open in "Wallet".'
           }
         </Text>
       </Box>
