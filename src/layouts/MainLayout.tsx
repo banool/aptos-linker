@@ -31,6 +31,9 @@ export default function MainLayout({ children }: LayoutProps) {
       "🤧",
       "😐",
       "😳",
+      "🔗",
+      "🦆",
+      "🪿",
     ];
     const randomIndex = Math.floor(Math.random() * emojis.length);
     return emojis[randomIndex];
@@ -38,7 +41,7 @@ export default function MainLayout({ children }: LayoutProps) {
 
   headerMiddle = (
     <Text textAlign="center" letterSpacing={5} fontSize={18}>
-      {getRandomFaceEmoji().repeat(3)}
+      {getRandomFaceEmoji().repeat(1)}
     </Text>
   );
 
@@ -50,7 +53,7 @@ export default function MainLayout({ children }: LayoutProps) {
           <Flex alignItems="center" gap="2" flex="1">
             <Box>
               <Link to="/">
-                <Heading size="md">Aptos Linker</Heading>
+                <Heading size="md">Linker</Heading>
               </Link>
             </Box>
           </Flex>

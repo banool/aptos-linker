@@ -33,7 +33,7 @@ const wallets: Wallet[] = [
 
 const WalletList = ({ linkUrl }: { linkUrl: string }) => {
   const bgColor = useColorModeValue("gray.100", "gray.700");
-  const highlightColor = useColorModeValue("gray.100", "gray.700");
+  const highlightColor = useColorModeValue("gray.200", "gray.700");
 
   return (
     <Container>
@@ -84,6 +84,13 @@ export const GoPage = () => {
   return (
     <>
       <WalletList linkUrl={linkUrl} />
+      <Box paddingTop={10} paddingLeft={15} paddingRight={15}>
+        <Text textAlign="center">
+          {
+            'Link taking you to the App Store instead of the app? Long hold and select "Open in <Wallet>".'
+          }
+        </Text>
+      </Box>
     </>
   );
 };
