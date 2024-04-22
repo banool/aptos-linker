@@ -83,9 +83,28 @@ export const GoPage = () => {
 
   return (
     <>
+      <Box
+        textAlign="center"
+        paddingTop={0}
+        paddingBottom={5}
+        paddingLeft={20}
+        paddingRight={20}
+      >
+        <Text paddingBottom={1}>
+          Open the following URL in your preferred wallet:
+        </Text>
+        <Text>
+          <code>{decodeURI(linkUrl)}</code>
+        </Text>
+      </Box>
       <WalletList linkUrl={linkUrl} />
-      <Box paddingTop={10} paddingLeft={15} paddingRight={15}>
-        <Text textAlign="center">
+      <Box
+        textAlign="center"
+        paddingTop={10}
+        paddingLeft={20}
+        paddingRight={20}
+      >
+        <Text>
           {
             'Link taking you to the App Store instead of the app? Long hold and select "Open in <Wallet>".'
           }
