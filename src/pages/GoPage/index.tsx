@@ -1,8 +1,9 @@
-import { CheckIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Box,
   Container,
   HStack,
+  Icon,
   Image,
   Text,
   VStack,
@@ -11,7 +12,6 @@ import {
 import { Link, useSearchParams } from "react-router-dom";
 
 type Wallet = {
-  id: string;
   name: string;
   iconUrl: string;
   /** For now we just always set this to true. Later on we can try do detection. */
@@ -21,7 +21,6 @@ type Wallet = {
 
 const wallets: Wallet[] = [
   {
-    id: "1",
     name: "Petra",
     iconUrl:
       "https://raw.githubusercontent.com/hippospace/aptos-wallet-adapter/main/logos/petra.png",
@@ -41,26 +40,42 @@ const WalletList = ({ linkUrl }: { linkUrl: string }) => {
         {wallets.map((wallet) => (
           <Box
             w="80%"
-            p={4}
             bg={wallet.detected ? highlightColor : bgColor}
             borderRadius="xl"
             alignItems="center"
           >
-            <Link key={wallet.id} to={wallet.buildUrl(linkUrl)}>
-              <HStack key={wallet.id} spacing={4}>
-                <Image src={wallet.iconUrl} boxSize="64px" />
-                <Text fontSize="xl" flex="1">
-                  {wallet.name}
-                </Text>
-              </HStack>
+            <Link key={wallet.name} to={wallet.buildUrl(linkUrl)}>
+              <Box p={4}>
+                <HStack spacing={4}>
+                  <Image src={wallet.iconUrl} boxSize="64px" />
+                  <Text fontSize="xl" flex="1">
+                    {wallet.name}
+                  </Text>
+                </HStack>
+              </Box>
             </Link>
           </Box>
         ))}
+        <Box
+          w="80%"
+          bg={true ? highlightColor : bgColor}
+          borderRadius="xl"
+          alignItems="center"
+        >
+          <Link key={"direct"} to={linkUrl}>
+            <Box p={4}>
+              <HStack spacing={4}>
+                <Icon as={ArrowForwardIcon} boxSize="64px" />
+                <Text fontSize="xl" flex="1">
+                  Open in Browser
+                </Text>
+              </HStack>
+            </Box>
+          </Link>
+        </Box>
       </VStack>
     </Container>
   );
-
-  // {wallet.detected && <CheckIcon color="green.500" />}
 };
 
 export const GoPage = () => {
