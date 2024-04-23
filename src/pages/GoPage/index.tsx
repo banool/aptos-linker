@@ -163,9 +163,7 @@ export const GoPage = () => {
         paddingRight={10}
       >
         <Text>
-          {
-            'Button taking you to the App Store instead of the app? Long hold and select Open in "Wallet".'
-          }
+        Long hold and select <b>Open in "Wallet"</b> if the button takes you to the store.
         </Text>
       </Box>
     </>
