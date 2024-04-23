@@ -1,9 +1,11 @@
 import { ArrowForwardIcon, CopyIcon } from "@chakra-ui/icons";
 import {
   Box,
+  ComponentWithAs,
   Container,
   HStack,
   Icon,
+  IconProps,
   Image,
   Text,
   VStack,
@@ -12,37 +14,16 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Link, useSearchParams } from "react-router-dom";
-
-type Wallet = {
-  name: string;
-  iconUrl: string;
-  /** For now we just always set this to true. Later on we can try do detection. */
-  detected: boolean;
-  buildUrl: (url: string) => string;
-};
-
-const wallets: Wallet[] = [
-  {
-    name: "Petra",
-    iconUrl:
-      "https://raw.githubusercontent.com/hippospace/aptos-wallet-adapter/main/logos/petra.png",
-    detected: true,
-    buildUrl: (url: string) =>
-      `https://petra.app/explore?link=${encodeURI(url)}`,
-  },
-];
+import { wallets } from "../../constants";
 
 const WalletList = ({ linkUrl }: { linkUrl: string }) => {
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const highlightColor = useColorModeValue("gray.200", "gray.700");
-
   const { onCopy } = useClipboard(linkUrl);
   const toast = useToast();
 
   const copyToClipboard = () => {
     onCopy();
     toast({
-      title: "Copied URL to clipboard!",
+      title: "Copied URL to clipboard.",
       status: "info",
       duration: 1500,
       isClosable: true,
@@ -53,62 +34,90 @@ const WalletList = ({ linkUrl }: { linkUrl: string }) => {
     <Container>
       <VStack spacing={4} mt={4}>
         {wallets.map((wallet) => (
-          <Box
-            w="80%"
-            bg={wallet.detected ? highlightColor : bgColor}
-            borderRadius="xl"
-            alignItems="center"
-          >
-            <Link key={wallet.name} to={wallet.buildUrl(linkUrl)}>
-              <Box p={4}>
-                <HStack spacing={4}>
-                  <Image src={wallet.iconUrl} boxSize="64px" />
-                  <Text fontSize="xl" flex="1">
-                    {wallet.name}
-                  </Text>
-                </HStack>
-              </Box>
-            </Link>
-          </Box>
+          <WalletCard
+            key={wallet.name}
+            name={wallet.name}
+            icon={wallet.iconUrl}
+            action={wallet.buildUrl(linkUrl)} // Define the action if needed
+            detected={wallet.detected}
+          />
         ))}
-        <Box
-          w="80%"
-          bg={true ? highlightColor : bgColor}
-          borderRadius="xl"
-          alignItems="center"
-        >
-          <Link key={"direct"} to={linkUrl}>
-            <Box p={4}>
-              <HStack spacing={4}>
-                <Icon as={ArrowForwardIcon} boxSize="64px" />
-                <Text fontSize="xl" flex="1">
-                  Open in Browser
-                </Text>
-              </HStack>
-            </Box>
-          </Link>
-        </Box>
-        <Box
-          w="80%"
-          bg={true ? highlightColor : bgColor}
-          borderRadius="xl"
-          alignItems="center"
-          onClick={copyToClipboard}
-          cursor="pointer"
-        >
-          <Box p={4}>
-            <HStack spacing={4}>
-              <Box p={"0px"}>
-                <Icon as={CopyIcon} boxSize="64px" />
-              </Box>
-              <Text fontSize="xl" flex="1">
-                Copy URL
-              </Text>
-            </HStack>
-          </Box>
-        </Box>
+        <WalletCard
+          key={"browser"}
+          name={"Open in Browser"}
+          icon={ArrowForwardIcon}
+          action={linkUrl}
+          detected={true}
+        />
+        <WalletCard
+          key={"copy"}
+          name={"Copy URL"}
+          icon={CopyIcon}
+          action={copyToClipboard}
+          detected={true}
+        />
       </VStack>
     </Container>
+  );
+};
+
+type WalletCardProps = {
+  key: string;
+  name: string;
+  /** Either a URL for an image or an Icon. */
+  icon: string | ComponentWithAs<"svg", IconProps>;
+  /** Either the link URL or an onClick to use. */
+  action: (() => void) | string;
+  detected: boolean;
+};
+
+const WalletCard: React.FC<WalletCardProps> = ({
+  key,
+  name,
+  icon,
+  action,
+  detected,
+}) => {
+  const bgColor = useColorModeValue("gray.100", "gray.700");
+  const highlightColor = useColorModeValue("gray.200", "gray.700");
+
+  let iconComponent;
+  if (typeof icon === "string") {
+    iconComponent = <Image src={icon} p={0.5} boxSize="64px" />;
+  } else {
+    iconComponent = <Icon as={icon} p={0.5} boxSize="64px" />;
+  }
+
+  let inner = (
+    <Box p={4}>
+      <HStack spacing={4}>
+        {iconComponent}
+        <Text fontSize="xl" flex="1">
+          {name}
+        </Text>
+      </HStack>
+    </Box>
+  );
+
+  let onClick = undefined;
+  if (typeof action === "string") {
+    inner = <Link to={action}>{inner}</Link>;
+  } else {
+    onClick = action;
+  }
+
+  return (
+    <Box
+      key={key}
+      w="80%"
+      bg={detected ? highlightColor : bgColor}
+      borderRadius="xl"
+      alignItems="center"
+      onClick={onClick}
+      cursor="pointer"
+    >
+      {inner}
+    </Box>
   );
 };
 
