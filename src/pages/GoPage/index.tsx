@@ -83,9 +83,9 @@ const WalletCard: React.FC<WalletCardProps> = ({
 
   let iconComponent;
   if (typeof icon === "string") {
-    iconComponent = <Image src={icon} p={0.5} boxSize="64px" />;
+    iconComponent = <Image src={icon} p={1} boxSize="64px" />;
   } else {
-    iconComponent = <Icon as={icon} p={0.5} boxSize="64px" />;
+    iconComponent = <Icon as={icon} p={1} boxSize="64px" />;
   }
 
   let inner = (
@@ -148,7 +148,7 @@ export const GoPage = () => {
         paddingLeft={10}
         paddingRight={10}
       >
-        <Text paddingBottom={1}>
+        <Text paddingBottom={5}>
           These buttons will open the following URL in your preferred wallet
         </Text>
         <Text>
